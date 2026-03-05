@@ -1,0 +1,254 @@
+@import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  font-size: 16px;
+
+  @media (max-width: 640px) {
+    font-size: 13px;
+  }
+
+  color-scheme: light;
+  color: #1e293b;
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --saathi-green: #0c831f;
+  --saathi-yellow: #f7cb15;
+  --color-primary: var(--saathi-green);
+  --color-accent: var(--saathi-yellow);
+}
+
+:root.dark {
+  color-scheme: dark;
+  --bg-main: #000000;
+  --bg-surface: #0a0a0a;
+  --bg-surface-hover: #111111;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+}
+
+/* Make all icons yellow in dark mode */
+.dark svg {
+  color: var(--saathi-yellow) !important;
+  stroke: var(--saathi-yellow) !important;
+}
+
+/* Force white icons for quantity selector in dark mode (on green background) */
+.dark .quantity-selector svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+@theme {
+  --color-primary: var(--saathi-green);
+  --color-accent: var(--saathi-yellow);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  width: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: inherit !important;
+  color: inherit !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Global Touch Feedback for Mobile */
+a,
+button,
+[role="button"] {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s transition;
+}
+
+a:active,
+button:active,
+[role="button"]:active {
+  transform: scale(0.97) !important;
+  opacity: 0.9;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@keyframes fadeInApp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-page-entry {
+  animation: fadeInApp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.premium-card {
+  @apply bg-white rounded-xl border border-gray-100 shadow-sm transition-all duration-300;
+}
+
+.premium-card:hover {
+  @apply shadow-lg shadow-gray-200/50 -translate-y-1 border-[#0c831f]/20;
+}
+
+/* Fix for broken images */
+img {
+  position: relative;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.2;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 20px;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .glass-dark {
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* 
+   USER MODULE DARK MODE REFINEMENT
+   Scoped to .user-module-root to fulfill the "sirf user module k liye" requirement.
+*/
+.dark .user-module-root {
+  --bg-page-pure: #000000;
+  --bg-card-dark: #121212;
+
+  /* Force pure black on page backgrounds */
+  &.bg-\[#fffef5\],
+  .bg-\[#fffef5\],
+  .bg-\[#fffdf0\] {
+    background-color: var(--bg-page-pure) !important;
+  }
+
+  /* Force dark grey on cards/surfaces that are white or light gray */
+  .bg-white,
+  .bg-gray-50,
+  .bg-gray-100 {
+    background-color: var(--bg-card-dark) !important;
+  }
+
+  /* Force text visibility for standard gray/black text */
+  .text-gray-900,
+  .text-gray-800,
+  .text-gray-700,
+  .text-black {
+    color: var(--text-primary) !important;
+  }
+
+  /* Adaptive borders for light components */
+  .border-gray-100,
+  .border-gray-200,
+  .border-gray-50 {
+    border-color: var(--border-color) !important;
+  }
+}
+
+/* Keep current general dark mode logic for text colors as base */
+.dark,
+.dark .text-gray-900,
+.dark .text-gray-800,
+.dark .text-gray-700 {
+  color: var(--text-primary);
+}
+
+.dark .text-gray-600,
+.dark .text-gray-500,
+.dark .text-gray-400 {
+  color: var(--text-secondary);
+}
+
+/* Maintain Category Pastel Colors */
+.dark [style*="background-color"] {
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s infinite linear;
+}
+
+.no-hover-effect:hover,
+.no-hover-effect:active,
+.no-hover-effect:focus {
+  background-color: transparent !important;
+  color: inherit !important;
+  border-color: inherit !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
